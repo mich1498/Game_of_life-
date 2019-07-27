@@ -38,44 +38,43 @@ int main(){
 				cout<<"File name is either incorrect or non existent"<<endl; 
 			}
 		}
-	}
 	while (1){
 		cout << endl;
 		for (int i = 0; i < grid_size; i++) {
         		for (int j = 0; j < grid_size; j++) {
           			if (grid[i][j] == 0) {
             		    		cout << " * ";
-          	  		} else if (board[i][j] == 1) {
+          	  		} else if (grid[i][j] == 1) {
                 			cout << " O ";
         	    		}
 	            		if (j == grid_size-1) {
                 			cout << endl;
             			}
 			}
-		int cgrid[size + 1][size + 1] = {};
+		int cgrid[grid_size + 1][grid_size + 1] = {};
 		std::copy(&grid[0][0], &grid[0][0] + grid_size*grid_size, &cgrid[0][0]);
 		for(int i = 0; i < grid_size; i++) {
 			for(int j = 0; j < grid_size; j++) {
-				int alive = getAlive(cBoard, i, j);
+				int alive_pieces = update(cgrid, i, j);
 				// rules of game of life 
 				// cell with less than 2 neighbours dies
-				if(alive < 2) {
+				if(alive_pieces< 2) {
 					grid[i][j] = 0;
 				}
 				// cell with 2 or 3 neighbours lives on to the next gen  
-				else if(alive == 3) {
+				else if(alive_pieces == 3) {
 					grid[i][j] = 1;
 				} 
                 // cell with more than 3 neighbours die (overpopulation)
-				else if(alive > 3) {
+				else if(alive_pieces > 3) {
 					grid[i][j] = 0;
 				}
 			}
 		}
 		usleep(600000);
 	}
-		}	
-	}
+}	
+
 }
 
 int update(int cgrid[grid_size + 1][grid_size + 1], int x, int y) {
